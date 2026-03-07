@@ -1,0 +1,41 @@
+{
+    "name": "foisalislambd/nowpayments-php",
+    "description": "Full-featured PHP SDK for NOWPayments cryptocurrency payment API",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Foisalislambd",
+            "url": "https://github.com/Foisalislambd"
+        }
+    ],
+    "keywords": [
+        "nowpayments",
+        "crypto",
+        "cryptocurrency",
+        "bitcoin",
+        "ethereum",
+        "payment",
+        "payment-gateway",
+        "crypto-payments",
+        "payments-api"
+    ],
+    "require": {
+        "php": ">=8.0",
+        "guzzlehttp/guzzle": "^7.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "NowPayments\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "NowPayments\\Tests\\": "tests/"
+        }
+    },
+    "minimum-stability": "stable"
+}

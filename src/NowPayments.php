@@ -132,10 +132,10 @@ class NowPayments
         return $this->client->get('/v1/payment/' . rawurlencode((string) $paymentId));
     }
 
-    /** Get paginated list of payments */
-    public function getPayments(?array $params = null): array
+    /** Get paginated list of payments. JWT recommended per API docs. */
+    public function getPayments(?array $params = null, ?string $jwtToken = null): array
     {
-        return $this->client->get('/v1/payment/', $params ?? []);
+        return $this->client->get('/v1/payment/', $params ?? [], $jwtToken);
     }
 
     /** Update payment estimate */
@@ -258,13 +258,25 @@ class NowPayments
         return $this->client->post('/v1/payout/validate-address', $params);
     }
 
+    /** Estimate network fee for a payout */
+    public function getPayoutFee(string $currency, float $amount): array
+    {
+        if (trim($currency) === '') {
+            throw new \InvalidArgumentException('Currency is required (e.g. "btc", "eth")');
+        }
+        return $this->client->get('/v1/payout/fee', [
+            'currency' => $currency,
+            'amount' => $amount,
+        ]);
+    }
+
     /** Cancel a scheduled payout */
     public function cancelPayout(string $payoutId, string $jwtToken): void
     {
         if (trim($jwtToken) === '') {
             throw new \InvalidArgumentException('JWT token is required for cancelPayout. Call getAuthToken first.');
         }
-        $this->client->post('/v1/payout/' . rawurlencode($payoutId) . '/cancel', ['payout_id' => $payoutId], $jwtToken);
+        $this->client->post('/v1/payout/w_id/cancel', ['payout_id' => $payoutId], $jwtToken);
     }
 
     /** Get crypto currencies for fiat cashout */
